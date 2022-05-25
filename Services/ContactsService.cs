@@ -4,12 +4,22 @@ namespace Services
 {
     public class ContactsService : IContactsService
     {
-        // gigity, master of disguise, Loretta where are you?
+        private static string servername = "localhost:5241";
 
+        private static List<User> RegisteredUsers = new List<User>()
+        {
+            new User("peter1", "Peter", "12345678!a", "localhost:7266"),
+            new User("quagmire1", "Quagmire", "12345678!a", "localhost:7266"),
+            new User("joe1", "Joe", "12345678!a", "localhost:7266"),
+            new User("cleveland1", "Cleveland", "12345678!a", "localhost:7266"),
+
+        };
+        
+        // gigity, master of disguise, Loretta where are you?
         private static Dictionary<string, List<Contact>> AllUsers =
              new Dictionary<string, List<Contact>>()
              {
-                {"peter", new List<Contact>(){
+                {"peter1", new List<Contact>(){
                     new Contact("quagmire1", "Quagmire", "localhost:7266", null, null),
                     new Contact("joe1", "Joe", "localhost:7266", null, null),
                     new Contact("cleveland1", "Cleveland", "localhost:7266", null, null)
@@ -36,6 +46,27 @@ namespace Services
             new Chat("peter", "cleveland1")
         };
 
+        public string GetServername()
+        {
+            return servername;
+        }
+
+        public List<User> GetUsers()
+        {
+            return RegisteredUsers;
+        }
+
+        public bool AddUser(User u)
+        {
+            var q = RegisteredUsers.Find(x => x.Id == u.Id);
+            if(q != null)
+            {
+                return false;
+            }
+            RegisteredUsers.Add(u);
+            AllUsers[u.Id] = new List<Contact>();
+            return true;
+        }
 
         public List<Contact> GetAll(string LoggedUser)
         {

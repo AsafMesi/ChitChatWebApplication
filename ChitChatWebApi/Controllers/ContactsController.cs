@@ -9,7 +9,6 @@ namespace ChitChatWebApi.Controllers
     [Route("api/[controller]")]
     public class ContactsController : ControllerBase
     {
-
         private readonly ILogger<ContactsController> _logger;
         private IContactsService _contactsService = new ContactsService();
 
@@ -130,6 +129,36 @@ namespace ChitChatWebApi.Controllers
                 return BadRequest();
             }
             return NoContent();
+        }
+
+
+        // POST: /api/Contacts/Users/Login
+        [HttpPost("Users/Login")]
+        public IActionResult Login([Bind("id")] string id, [Bind("password")] string password)
+        {
+            var q = _contactsService.GetUsers().Find(x => (x.Id == id) && (x.Password == password));
+
+            if (q == null)
+            {
+                return BadRequest();
+
+            }
+            ApiContact res = new ApiContact(q.Id, q.Name, q.Server);
+            return Ok(res);
+        }
+
+        // POST: /api/Contacts/Users/Register
+        [HttpPost("Users/Register")]
+        public IActionResult Register([Bind("id")] string id, [Bind("name")] string name,
+            [Bind("password")] string password)
+        {
+            User newUser = new User(id, name, password, _contactsService.GetServername());
+            if (!_contactsService.AddUser(newUser))
+            {
+                return BadRequest();
+            }
+            ApiContact res = new ApiContact(newUser.Id, newUser.Name, newUser.Server);
+            return Ok(res);
         }
     }
 }
