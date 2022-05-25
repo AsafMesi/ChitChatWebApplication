@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D8E8D370-603C-43CE-8404-2F1F688CD274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{D8E8D370-603C-43CE-8404-2F1F688CD274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{CD0CF23F-FA49-49CF-879E-C85EE20F0034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{CD0CF23F-FA49-49CF-879E-C85EE20F0034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChitChatWebApi", "ChitChatWebApi\ChitChatWebApi.csproj", "{D04F6C41-A89F-491B-BC92-C695F4A5FE07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChatWebApi", "ChitChatWebApi\ChitChatWebApi.csproj", "{D04F6C41-A89F-491B-BC92-C695F4A5FE07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChatRaitings", "..\..\..\source\repos\ChitChatRaitings\ChitChatRaitings\ChitChatRaitings.csproj", "{170EED7F-B899-4CE2-BC57-B16BD9D2FD79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D04F6C41-A89F-491B-BC92-C695F4A5FE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D04F6C41-A89F-491B-BC92-C695F4A5FE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D04F6C41-A89F-491B-BC92-C695F4A5FE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{170EED7F-B899-4CE2-BC57-B16BD9D2FD79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{170EED7F-B899-4CE2-BC57-B16BD9D2FD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{170EED7F-B899-4CE2-BC57-B16BD9D2FD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{170EED7F-B899-4CE2-BC57-B16BD9D2FD79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

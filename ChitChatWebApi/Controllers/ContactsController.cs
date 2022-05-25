@@ -32,9 +32,9 @@ namespace ChitChatWebApi.Controllers
 
         // POST api/contacts   --- > add new contact to LoggedUser contacts.
         [HttpPost("{LoggedUser}")]
-        public IActionResult AddContact(string id, string name, string server, string LoggedUser)
+        public IActionResult AddContact([FromBody] ApiContact newContact, string LoggedUser)
         {
-            if (!_contactsService.Add(id, name, server, LoggedUser))
+            if (!_contactsService.Add(newContact.id, newContact.name, newContact.server, LoggedUser))
             {
                 return BadRequest();
             }
@@ -55,9 +55,9 @@ namespace ChitChatWebApi.Controllers
 
         // PUT api/contacts/:id
         [HttpPut("{id}/{LoggedUser}")]
-        public IActionResult UpdateContactById(string id, string name, string server, string LoggedUser)
+        public IActionResult UpdateContactById([FromBody] ApiContact updatedContact, string LoggedUser)
         {
-            if (!_contactsService.Update(id, name, server, LoggedUser))
+            if (!_contactsService.Update(updatedContact.id, updatedContact.name, updatedContact.server, LoggedUser))
             {
                 return NotFound();
             }
@@ -89,7 +89,7 @@ namespace ChitChatWebApi.Controllers
 
         // POST api/contacts/:id/Messages
         [HttpPost("{id}/Messages/{LoggedUser}")]
-        public IActionResult AddMessage(string id, string content, string LoggedUser)
+        public IActionResult AddMessage(string id, string LoggedUser, [FromBody] string content)
         {
             if (!_contactsService.AddMessage(id, content, LoggedUser))
             {
@@ -100,7 +100,7 @@ namespace ChitChatWebApi.Controllers
 
         // GET api/contacts/:id/Messages/:id2
         [HttpGet("{id}/Messages/{id2}/{LoggedUser}")]
-        public IActionResult getMessageById(string id, int id2, string LoggedUser)
+        public IActionResult GetMessageById(string id, int id2, string LoggedUser)
         {
             Message message = _contactsService.GetMessage(id, id2, LoggedUser);
             if (message == null)
@@ -112,7 +112,7 @@ namespace ChitChatWebApi.Controllers
 
         // Put api/contacts/:id/Messages/:id2
         [HttpPut("{id}/Messages/{id2}/{LoggedUser}")]
-        public IActionResult UpdateMessageById(string id, int id2, string content, string LoggedUser)
+        public IActionResult UpdateMessageById(string id, int id2, [FromBody] string content, string LoggedUser)
         {
             if (!_contactsService.UpdateMessage(id, id2, content, LoggedUser))
             {

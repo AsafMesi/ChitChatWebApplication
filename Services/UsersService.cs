@@ -2,7 +2,7 @@
 
 namespace Services
 {
-    public class ContactsService : IContactsService
+    public class UsersService
     {
         // gigity, master of disguise, Loretta where are you?
 
@@ -130,7 +130,7 @@ namespace Services
             {
                 return null;
             }
-            Message message = chat.Messages.Find(x => x.Id == id2); // make Messages a dick
+            Message message = chat.Messages.Find(x => x.Id == id2);
             return message;
         }
         public bool UpdateMessage(string id, int id2, string content, string LoggedUser)

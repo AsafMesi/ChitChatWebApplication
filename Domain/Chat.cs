@@ -23,11 +23,13 @@ namespace Domain
             Messages = new List<Message>();
         }
 
-        public void AddMessage(string Content, string Sender)
+        // return the Id of the added msg.
+        public Message AddMessage(string Content, bool Sent)
         {
             LastMsgId++;
-            Message NewMsg = new Message(LastMsgId, Content, Sender);
+            Message NewMsg = new Message(LastMsgId, Content, Sent);
             Messages.Add(NewMsg);
+            return NewMsg;
         }
     }
 }

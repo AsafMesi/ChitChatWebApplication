@@ -4,7 +4,7 @@ namespace Domain
 {
     public class Contact
     {
-        public Contact(string Username, string DisplayName, string ServerName, string? LastMsg, DateTime? LastMsgDate)
+        public Contact(string Username, string DisplayName, string ServerName, string? LastMsg, string? LastMsgDate)
         {
             Id = Username;
             Name = DisplayName;
@@ -22,6 +22,6 @@ namespace Domain
 
         public string? Last { get; set; }
 
-        public DateTime? Lastdate { get; set; }
+        public string? Lastdate { get; set; }
     }
 }
