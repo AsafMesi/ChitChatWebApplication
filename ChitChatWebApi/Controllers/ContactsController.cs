@@ -134,9 +134,9 @@ namespace ChitChatWebApi.Controllers
 
         // POST: /api/Contacts/Users/Login
         [HttpPost("Users/Login")]
-        public IActionResult Login([Bind("id")] string id, [Bind("password")] string password)
+        public IActionResult Login([FromBody] ApiUserLogin apiUser)
         {
-            var q = _contactsService.GetUsers().Find(x => (x.Id == id) && (x.Password == password));
+            var q = _contactsService.GetUsers().Find(x => (x.Id == apiUser.id) && (x.Password == apiUser.password));
 
             if (q == null)
             {
@@ -149,10 +149,9 @@ namespace ChitChatWebApi.Controllers
 
         // POST: /api/Contacts/Users/Register
         [HttpPost("Users/Register")]
-        public IActionResult Register([Bind("id")] string id, [Bind("name")] string name,
-            [Bind("password")] string password)
+        public IActionResult Register([FromBody] ApiUserRegister apiUser)
         {
-            User newUser = new User(id, name, password, _contactsService.GetServername());
+            User newUser = new User(apiUser.id, apiUser.name, apiUser.password, _contactsService.GetServername());
             if (!_contactsService.AddUser(newUser))
             {
                 return BadRequest();

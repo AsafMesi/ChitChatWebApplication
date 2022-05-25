@@ -139,7 +139,7 @@ namespace Services
             {
                 return null;
             }
-            return chat.Messages;
+            return MessageWrapper.GetMessages(chat.Messages, LoggedUser);
         }
         public bool AddMessage(string id, string content, string LoggedUser) 
         {
@@ -149,7 +149,7 @@ namespace Services
                 return false;
             }
             // add the message and get ref to it.
-            Message AddedMessage = chat.AddMessage(content, true);
+            Message AddedMessage = chat.AddMessage(content, LoggedUser);
             UpdateLastMessage(id, AddedMessage.Content, AddedMessage.Created, LoggedUser);
             // should use transfer ?
             return true;
@@ -161,7 +161,7 @@ namespace Services
             {
                 return null;
             }
-            Message message = chat.Messages.Find(x => x.Id == id2); // make Messages a dick
+            Message message = chat.GetMessage(id2, LoggedUser); // make Messages a dick
             return message;
         }
         public bool UpdateMessage(string id, int id2, string content, string LoggedUser)

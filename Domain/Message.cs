@@ -10,11 +10,11 @@ namespace Domain
         public string Created { get; set; }
         public bool Sent { get; set; }
 
-        public Message(int id, string content, bool sent)
+        public Message(int id, string content, string created, bool sent)
         {
             Id = id;
             Content = content;
-            Created = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fffffff");
+            Created = created;
             Sent = sent;
         }
     }
