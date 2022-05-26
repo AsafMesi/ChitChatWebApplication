@@ -18,6 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IContactsService, ContactsService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 var app = builder.Build();
 

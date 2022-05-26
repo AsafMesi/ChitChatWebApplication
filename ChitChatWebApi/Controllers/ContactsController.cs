@@ -10,18 +10,20 @@ namespace ChitChatWebApi.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly ILogger<ContactsController> _logger;
-        private readonly IContactsService _contactsService;
-        public ContactsController(ILogger<ContactsController> logger, IContactsService contactsService)
+        private readonly IUsersService _usersService;
+        public ContactsController(ILogger<ContactsController> logger, IUsersService usersService)
         {
             _logger = logger;
-            _contactsService = contactsService;
+            _usersService = usersService;
         }
 
-        // GET api/contacts   --- > return all LoggedUser contacts.
+        // Contacts fucntions:
+
+        // GET api/contacts   ---> return all LoggedUser contacts.
         [HttpGet("{LoggedUser}")]
         public IActionResult GetContacts(string LoggedUser)
         {
-            List<Contact> contacts = _contactsService.GetAll(LoggedUser);
+            List<Contact> contacts = _usersService.GetUserContacts(LoggedUser);
             if (contacts == null) 
             {
                 return BadRequest();
@@ -29,22 +31,17 @@ namespace ChitChatWebApi.Controllers
             return Ok(contacts);
         }
 
-        // POST api/contacts   --- > add new contact to LoggedUser contacts.
-        [HttpPost("{LoggedUser}")]
-        public IActionResult AddContact([FromBody] ApiContact newContact, string LoggedUser)
-        {
-            if (!_contactsService.Add(newContact.id, newContact.name, newContact.server, LoggedUser))
-            {
-                return BadRequest();
-            }
-            return Ok();
-        }
-
         // GET api/contacts/:id
         [HttpGet("{id}/{LoggedUser}")]
         public IActionResult GetContactById(string id, string LoggedUser)
         {
-            Contact contact = _contactsService.Get(id, LoggedUser);
+            List<Contact> contacts = _usersService.GetUserContacts(LoggedUser);
+            if (contacts == null)
+            {
+                return NotFound();
+            }
+            IContactsService _contactsService = new ContactsService() { _contacts = contacts };
+            Contact contact = _contactsService.Get(id);
             if (contact == null)
             {
                 return NotFound();
@@ -52,11 +49,35 @@ namespace ChitChatWebApi.Controllers
             return Ok(contact);
         }
 
+        // POST api/contacts   --- > add new contact to LoggedUser contacts.
+        [HttpPost("{LoggedUser}")]
+        public IActionResult AddContact([FromBody] ApiContact newContact, string LoggedUser)
+        {
+            List<Contact> contacts = _usersService.GetUserContacts(LoggedUser);
+            if (contacts == null)
+            {
+                return BadRequest();
+            }
+            IContactsService _contactsService = new ContactsService() { _contacts = contacts };
+            if (!_contactsService.Create(newContact.id, newContact.name, newContact.server))
+            {
+                return BadRequest();
+            }
+            _usersService.AddChat(newContact.id, LoggedUser);
+            return Ok();
+        }
+
         // PUT api/contacts/:id
         [HttpPut("{id}/{LoggedUser}")]
         public IActionResult UpdateContactById([FromBody] ApiContact updatedContact, string LoggedUser)
         {
-            if (!_contactsService.Update(updatedContact.id, updatedContact.name, updatedContact.server, LoggedUser))
+            List<Contact> contacts = _usersService.GetUserContacts(LoggedUser);
+            if (contacts == null)
+            {
+                return BadRequest();
+            }
+            IContactsService _contactsService = new ContactsService() { _contacts = contacts };
+            if (!_contactsService.Update(updatedContact.id, updatedContact.name, updatedContact.server))
             {
                 return NotFound();
             }
@@ -67,18 +88,36 @@ namespace ChitChatWebApi.Controllers
         [HttpDelete("{id}/{LoggedUser}")]
         public IActionResult DeleteContactById(string id, string LoggedUser)
         {
-            if (!_contactsService.Delete(id, LoggedUser))
+            List<Contact> contacts = _usersService.GetUserContacts(LoggedUser);
+            if (contacts == null)
+            {
+                return BadRequest();
+            }
+            IContactsService _contactsService = new ContactsService() { _contacts = contacts };
+            if (!_contactsService.Delete(id))
             {
                 return NotFound();
             }
+            _usersService.DeleteChat(id, LoggedUser);
+
+            List<Contact> contactContacts = _usersService.GetUserContacts(id);
+            if (contactContacts != null)
+            {
+                // no error checking in this scope
+                _contactsService = new ContactsService() { _contacts = contacts };
+                _contactsService.Delete(LoggedUser);
+            }
             return NoContent();
         }
+
+
+        // Messages functions:
 
         // GET api/contacts/:id/Messages
         [HttpGet("{id}/Messages/{LoggedUser}")]
         public IActionResult GetMessages(string id, string LoggedUser)
         {
-            List<Message> messages = _contactsService.GetMessages(id, LoggedUser);
+            List<Message> messages = _usersService.GetMessages(id, LoggedUser);
                 if (messages == null)
             {
                 return NotFound();
@@ -90,7 +129,7 @@ namespace ChitChatWebApi.Controllers
         [HttpPost("{id}/Messages/{LoggedUser}")]
         public IActionResult AddMessage(string id, string LoggedUser, [FromBody] string content)
         {
-            if (!_contactsService.AddMessage(id, content, LoggedUser))
+            if (!_usersService.AddMessage(id, content, LoggedUser))
             {
                 return BadRequest();
             }
@@ -101,7 +140,7 @@ namespace ChitChatWebApi.Controllers
         [HttpGet("{id}/Messages/{id2}/{LoggedUser}")]
         public IActionResult GetMessageById(string id, int id2, string LoggedUser)
         {
-            Message message = _contactsService.GetMessage(id, id2, LoggedUser);
+            Message message = _usersService.GetMessage(id, id2, LoggedUser);
             if (message == null)
             {
                 return NotFound();
@@ -113,7 +152,7 @@ namespace ChitChatWebApi.Controllers
         [HttpPut("{id}/Messages/{id2}/{LoggedUser}")]
         public IActionResult UpdateMessageById(string id, int id2, [FromBody] string content, string LoggedUser)
         {
-            if (!_contactsService.UpdateMessage(id, id2, content, LoggedUser))
+            if (!_usersService.UpdateMessage(id, id2, content, LoggedUser))
             {
                 return BadRequest();
             }
@@ -124,39 +163,11 @@ namespace ChitChatWebApi.Controllers
         [HttpDelete("{id}/Messages/{id2}/{LoggedUser}")]
         public IActionResult DeleteMessageById(string id, int id2, string LoggedUser)
         {
-            if (!_contactsService.DeleteMessage(id, id2, LoggedUser))
+            if (!_usersService.DeleteMessage(id, id2, LoggedUser))
             {
                 return BadRequest();
             }
             return NoContent();
-        }
-
-
-        // POST: /api/Contacts/Users/Login/
-        [HttpPost("Users/Login/")]
-        public IActionResult Login([FromBody] ApiUserLogin apiUser)
-        {
-            var q = _contactsService.GetUsers().Find(x => (x.Id == apiUser.id) && (x.Password == apiUser.password));
-
-            if (q == null)
-            {
-                return BadRequest();
-
-            }
-            ApiContact res = new ApiContact(q.Id, q.Name, q.Server);
-            return Ok(res);
-        }
-
-        // POST: /api/Contacts/Users/Register/
-        [HttpPost("Users/Register/")]
-        public IActionResult Register([FromBody] ApiUserRegister apiUser)
-        {
-            if (!_contactsService.AddUser(apiUser.id, apiUser.name, apiUser.password))
-            {
-                return BadRequest();
-            }
-            ApiContact res = _contactsService.GetUser(apiUser.id);
-            return Ok(res);
         }
     }
 }
