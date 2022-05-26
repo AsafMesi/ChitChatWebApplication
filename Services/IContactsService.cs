@@ -9,6 +9,7 @@ namespace Services
         public Contact Get(string id, string LoggedUser);
         public bool Add(string id, string name, string server, string LoggedUser);
         public bool Update(string id, string name, string server, string LoggedUser);
+        public bool UpdateLastMessage(string id, string Last, string Lastdate, string LoggedUser);
         public bool Delete(string id, string LoggedUser);
         public Chat GetChat(string id, string LoggedUser);
         public List<Message> GetMessages(string id, string LoggedUser);

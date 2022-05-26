@@ -8,10 +8,10 @@ namespace Services
 
         private static List<User> RegisteredUsers = new List<User>()
         {
-            new User("peter1", "Peter", "12345678!a", "localhost:7266"),
-            new User("quagmire1", "Quagmire", "12345678!a", "localhost:7266"),
-            new User("joe1", "Joe", "12345678!a", "localhost:7266"),
-            new User("cleveland1", "Cleveland", "12345678!a", "localhost:7266"),
+            new User("peter1", "Peter", "12345678!a", "localhost:5241"),
+            new User("quagmire1", "Quagmire", "12345678!a", "localhost:5241"),
+            new User("joe1", "Joe", "12345678!a", "localhost:5241"),
+            new User("cleveland1", "Cleveland", "12345678!a", "localhost:5241"),
 
         };
 
@@ -26,15 +26,15 @@ namespace Services
                      }
                  },
                 {"quagmire1", new List<Contact>(){
-                    new Contact("peter1", "Peter", "localhost:7266", null, null)
+                    new Contact("peter1", "Peter", "localhost:5241", null, null)
                      }
                  },
                 {"joe1", new List<Contact>(){
-                    new Contact("peter1", "Peter", "localhost:7266", null, null)
+                    new Contact("peter1", "Peter", "localhost:5241", null, null)
                      }
                  },
                 {"cleveland1", new List<Contact>(){
-                    new Contact("peter1", "Peter", "localhost:7266", null, null)
+                    new Contact("peter1", "Peter", "localhost:5241", null, null)
                      }
                  }
              };
@@ -162,7 +162,12 @@ namespace Services
 
         public bool AddMessage(string id, string content, string LoggedUser)
         {
-            MessageWrapper AddedMessage = Transfer(LoggedUser, id, content);
+            Chat chat = GetChat(id, LoggedUser);
+            if (chat == null)
+            {
+                return false;
+            }
+            MessageWrapper AddedMessage = chat.AddMessage(content, LoggedUser);
             if (AddedMessage == null)
             {
                 return false;
@@ -206,7 +211,7 @@ namespace Services
             return false;
         }
 
-        private bool UpdateLastMessage(string id, string Last, string Lastdate, string LoggedUser)
+        public bool UpdateLastMessage(string id, string Last, string Lastdate, string LoggedUser)
         {
             Contact ContactToUpdate = Get(id, LoggedUser);
             if (ContactToUpdate == null)

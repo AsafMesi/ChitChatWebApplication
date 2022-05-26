@@ -30,8 +30,9 @@ namespace ChitChatWebApi.Controllers
             MessageWrapper AddedMessage = chat.AddMessage(apiTransfer.content, apiTransfer.from);
             if (AddedMessage == null)
             {
-                return BadRequest();
+                return BadRequest("transfer failed");
             }
+            _contactsService.UpdateLastMessage(apiTransfer.to, AddedMessage.Content, AddedMessage.Created, apiTransfer.from);
             return StatusCode(201);
         }
     }
