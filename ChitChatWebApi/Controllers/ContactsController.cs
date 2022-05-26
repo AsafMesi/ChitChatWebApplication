@@ -10,11 +10,11 @@ namespace ChitChatWebApi.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly ILogger<ContactsController> _logger;
-        private IContactsService _contactsService = new ContactsService();
-
-        public ContactsController(ILogger<ContactsController> logger)
+        private readonly IContactsService _contactsService;
+        public ContactsController(ILogger<ContactsController> logger, IContactsService contactsService)
         {
             _logger = logger;
+            _contactsService = contactsService;
         }
 
         // GET api/contacts   --- > return all LoggedUser contacts.
@@ -132,8 +132,8 @@ namespace ChitChatWebApi.Controllers
         }
 
 
-        // POST: /api/Contacts/Users/Login
-        [HttpPost("Users/Login")]
+        // POST: /api/Contacts/Users/Login/
+        [HttpPost("Users/Login/")]
         public IActionResult Login([FromBody] ApiUserLogin apiUser)
         {
             var q = _contactsService.GetUsers().Find(x => (x.Id == apiUser.id) && (x.Password == apiUser.password));
@@ -147,16 +147,15 @@ namespace ChitChatWebApi.Controllers
             return Ok(res);
         }
 
-        // POST: /api/Contacts/Users/Register
-        [HttpPost("Users/Register")]
+        // POST: /api/Contacts/Users/Register/
+        [HttpPost("Users/Register/")]
         public IActionResult Register([FromBody] ApiUserRegister apiUser)
         {
-            User newUser = new User(apiUser.id, apiUser.name, apiUser.password, _contactsService.GetServername());
-            if (!_contactsService.AddUser(newUser))
+            if (!_contactsService.AddUser(apiUser.id, apiUser.name, apiUser.password))
             {
                 return BadRequest();
             }
-            ApiContact res = new ApiContact(newUser.Id, newUser.Name, newUser.Server);
+            ApiContact res = _contactsService.GetUser(apiUser.id);
             return Ok(res);
         }
     }

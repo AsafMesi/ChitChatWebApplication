@@ -1,5 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
+using System;
+using System.Collections.Generic;
+
 namespace Domain
 {
     public class MessageWrapper
@@ -21,7 +24,7 @@ namespace Domain
         public static List<Message> GetMessages(List<MessageWrapper> messages, string loggedUser)
         {
             int length = messages.Count;
-            List <Message> result = new List <Message>();
+            List <Message> result = new List <Message>(new Message[length]);
             for (int i = 0; i < length; i++)
             {
                 MessageWrapper msg = messages[i];

@@ -14,15 +14,15 @@ namespace Services
             new User("cleveland1", "Cleveland", "12345678!a", "localhost:7266"),
 
         };
-        
+
         // gigity, master of disguise, Loretta where are you?
         private static Dictionary<string, List<Contact>> AllUsers =
              new Dictionary<string, List<Contact>>()
              {
                 {"peter1", new List<Contact>(){
-                    new Contact("quagmire1", "Quagmire", "localhost:7266", null, null),
-                    new Contact("joe1", "Joe", "localhost:7266", null, null),
-                    new Contact("cleveland1", "Cleveland", "localhost:7266", null, null)
+                    new Contact("quagmire1", "Quagmire", "localhost:5241", null, null),
+                    new Contact("joe1", "Joe", "localhost:5241", null, null),
+                    new Contact("cleveland1", "Cleveland", "localhost:5241", null, null)
                      }
                  },
                 {"quagmire1", new List<Contact>(){
@@ -41,9 +41,9 @@ namespace Services
 
         private static List<Chat> AllChats = new List<Chat>()
         {
-            new Chat("peter", "quagmire1"),
-            new Chat("peter", "joe1"),
-            new Chat("peter", "cleveland1")
+            new Chat("peter1", "quagmire1"),
+            new Chat("peter1", "joe1"),
+            new Chat("peter1", "cleveland1")
         };
 
         public string GetServername()
@@ -55,17 +55,24 @@ namespace Services
         {
             return RegisteredUsers;
         }
-
-        public bool AddUser(User u)
+        public bool AddUser(string id, string name, string password)
         {
-            var q = RegisteredUsers.Find(x => x.Id == u.Id);
-            if(q != null)
+            var q = RegisteredUsers.Find(x => x.Id == id);
+            if (q != null)
             {
                 return false;
             }
-            RegisteredUsers.Add(u);
-            AllUsers[u.Id] = new List<Contact>();
+            RegisteredUsers.Add(new User(id, name, password, GetServername()));
+            AllUsers[id] = new List<Contact>();
             return true;
+        }
+
+        public ApiContact GetUser(string id)
+        {
+            User user = RegisteredUsers.Find(x => x.Id == id);
+            if (user == null)
+                return null;
+            return new ApiContact(user.Id, user.Name, user.Server);
         }
 
         public List<Contact> GetAll(string LoggedUser)
@@ -86,7 +93,7 @@ namespace Services
         public bool Add(string id, string name, string server, string LoggedUser)
         {
             Contact contact = Get(id, LoggedUser);
-            if (contact == null) 
+            if (contact == null)
             {
                 Contact NewContact = new Contact(id, name, server, null, null);
                 AllUsers[LoggedUser].Add(NewContact);
@@ -132,7 +139,7 @@ namespace Services
             }
             return chat;
         }
-        public List<Message> GetMessages(string id, string LoggedUser) 
+        public List<Message> GetMessages(string id, string LoggedUser)
         {
             Chat chat = GetChat(id, LoggedUser);
             if (chat == null)
@@ -141,20 +148,29 @@ namespace Services
             }
             return MessageWrapper.GetMessages(chat.Messages, LoggedUser);
         }
-        public bool AddMessage(string id, string content, string LoggedUser) 
+
+        public MessageWrapper Transfer(string from, string to, string content)
         {
-            Chat chat = GetChat(id, LoggedUser);
+            Chat chat = GetChat(from, to);
             if (chat == null)
+            {
+                return null;
+            }
+            MessageWrapper AddedMessage = chat.AddMessage(content, from);
+            return AddedMessage;
+        }
+
+        public bool AddMessage(string id, string content, string LoggedUser)
+        {
+            MessageWrapper AddedMessage = Transfer(LoggedUser, id, content);
+            if (AddedMessage == null)
             {
                 return false;
             }
-            // add the message and get ref to it.
-            Message AddedMessage = chat.AddMessage(content, LoggedUser);
             UpdateLastMessage(id, AddedMessage.Content, AddedMessage.Created, LoggedUser);
-            // should use transfer ?
             return true;
         }
-        public Message GetMessage(string id, int id2, string LoggedUser) 
+        public Message GetMessage(string id, int id2, string LoggedUser)
         {
             Chat chat = GetChat(id, LoggedUser);
             if (chat == null)
@@ -181,7 +197,7 @@ namespace Services
             {
                 return false;
             }
-            Message message = chat.Messages.Find(x => x.Id == id2);
+            MessageWrapper message = chat.Messages.Find(x => x.Id == id2);
             if (message != null)
             {
                 chat.Messages.Remove(message); // need to get new last msg to update the contact.
