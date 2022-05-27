@@ -10,19 +10,19 @@ namespace ChitChatWebApi.Controllers
     public class TransferController : ControllerBase
     {
         private readonly ILogger<ContactsController> _logger;
-        private readonly IContactsService _contactsService;
+        private readonly IUsersService _usersService;
 
-        public TransferController(ILogger<ContactsController> logger, IContactsService contactsService)
+        public TransferController(ILogger<ContactsController> logger, IUsersService usersService)
         {
             _logger = logger;
-            _contactsService = contactsService;
+            _usersService = usersService;
         }
 
         // POST: /api/Transfer/
         [HttpPost]
         public IActionResult Transfer([FromBody] ApiTransfer apiTransfer)
         {
-            Chat chat = _contactsService.GetChat(apiTransfer.from, apiTransfer.to);
+            Chat chat = _usersService.GetChat(apiTransfer.to, apiTransfer.from);
             if (chat == null)
             {
                 return NotFound();
@@ -30,7 +30,12 @@ namespace ChitChatWebApi.Controllers
             MessageWrapper AddedMessage = chat.AddMessage(apiTransfer.content, apiTransfer.from);
             if (AddedMessage == null)
             {
-                return BadRequest();
+                return BadRequest("transfer failed");
+            }
+            _usersService.UpdateLastMessage(apiTransfer.from, AddedMessage.Content, AddedMessage.Created, apiTransfer.to);
+            if (_usersService.GetUser(apiTransfer.from) != null) // We are in the same server
+            {
+                _usersService.UpdateLastMessage(apiTransfer.to, AddedMessage.Content, AddedMessage.Created, apiTransfer.from);
             }
             return StatusCode(201);
         }
