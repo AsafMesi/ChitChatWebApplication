@@ -4,11 +4,10 @@ namespace ChitChatWebApi.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string message, string activeUser, string passiveUser)
+        public async Task getContactUpdate(string userToUpdate)
         {
-            await Clients.All.SendAsync("RecieveMessage",
-                $"{activeUser} sent a message to ${passiveUser} that contains the following:\n" +
-                $"{message}");
+            Console.WriteLine(userToUpdate);
+            await Clients.All.SendAsync("TriggerGetContacts", userToUpdate);
         }
     }
 }

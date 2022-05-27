@@ -7,18 +7,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Allow All", builder =>
     {
-        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: "myAllowSpecificOrigins", policy =>
-    {
-        policy.WithOrigins("http://localhost:3000/")
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().DisallowCredentials();
     });
 });
 
@@ -49,8 +38,6 @@ app.MapControllers();
 app.UseRouting();
 
 app.UseCors("Allow All");
-
-app.UseCors("myAllowSpecificOrigins");
 
 app.UseEndpoints(endpoints =>
 {
