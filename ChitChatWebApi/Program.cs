@@ -1,3 +1,4 @@
+using ChitChatWebApi.Hubs;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,18 +11,28 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "myAllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000/")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
+});
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IContactsService, ContactsService>();
 
 var app = builder.Build();
-
-app.UseCors("Allow All");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -33,5 +44,16 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRouting();
+
+app.UseCors("Allow All");
+
+app.UseCors("myAllowSpecificOrigins");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chathub");
+});
 
 app.Run();
