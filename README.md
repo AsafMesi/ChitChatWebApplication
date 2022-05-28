@@ -11,8 +11,9 @@ The installation process consists of 3 parts:
 2) Ratings set up - detailed in this link: https://github.com/danmarom16/ChitChatRaitings/blob/master/README.md
 3) Client side set up - detailed in this link: https://github.com/danmarom16/chit-chat#readme
 
-
+--------------------------------
 ### Note that the order MATTERS!
 #### you must complete the server side set up first, then the ratings set up and only then proceed to client side set up.
+----------------------------------
 ## Authors
 Asaf Mesilaty, Dan Marom
