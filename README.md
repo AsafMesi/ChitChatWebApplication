@@ -15,5 +15,9 @@ The installation process consists of 3 parts:
 ### Note that the order MATTERS!
 #### you must complete the server side set up first, then the ratings set up and only then proceed to client side set up.
 ----------------------------------
+
+#### Server side Set-up:
+* Download the source code in the following link: https://github.com/AsafMesi/ChitChatWebApplication.
+
 ## Authors
 Asaf Mesilaty, Dan Marom
