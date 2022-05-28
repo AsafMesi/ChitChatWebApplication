@@ -13,6 +13,6 @@ The installation process consists of 3 parts:
 
 
 ### Note that the order MATTERS!
-### you must complete the server side set up first, then the ratings set up and only then proceed to client side set up.
+#### you must complete the server side set up first, then the ratings set up and only then proceed to client side set up.
 ## Authors
 Asaf Mesilaty, Dan Marom
