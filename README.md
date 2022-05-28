@@ -33,7 +33,7 @@ The installation process consists of 3 parts:
 * Finally click start, and you should see those two windows appear:
 <img width="953" alt="image" src="https://user-images.githubusercontent.com/92876036/170840198-30d19977-5fb5-4cd2-b25c-ce90b5c17461.png">
 
-#### That's it for the server side, please do not close those windows until you finish using the app.
+#### That's it for the server side, please do not close those windows until you finish using the app, you can minimize them.
 Now, for the client side click the link attached at the top of the page and follow the instructions from there.
 
 Have fun.
