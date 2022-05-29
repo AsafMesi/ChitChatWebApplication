@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChatWebApi", "ChitChatWebApi\ChitChatWebApi.csproj", "{D04F6C41-A89F-491B-BC92-C695F4A5FE07}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChitChatRaitings", "ChitChatRaitings\ChitChatRaitings\ChitChatRaitings.csproj", "{503F0BCB-DD01-4179-84B9-199DC55AF69F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChitChatRatings", "ChitChatRatings\ChitChatRatings.csproj", "{1F50CBDD-472A-40C8-B2DF-CA52EDDF6141}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{D04F6C41-A89F-491B-BC92-C695F4A5FE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D04F6C41-A89F-491B-BC92-C695F4A5FE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D04F6C41-A89F-491B-BC92-C695F4A5FE07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{503F0BCB-DD01-4179-84B9-199DC55AF69F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{503F0BCB-DD01-4179-84B9-199DC55AF69F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{503F0BCB-DD01-4179-84B9-199DC55AF69F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{503F0BCB-DD01-4179-84B9-199DC55AF69F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F50CBDD-472A-40C8-B2DF-CA52EDDF6141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F50CBDD-472A-40C8-B2DF-CA52EDDF6141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F50CBDD-472A-40C8-B2DF-CA52EDDF6141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F50CBDD-472A-40C8-B2DF-CA52EDDF6141}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
