@@ -36,6 +36,27 @@ The installation process consists of 3 parts:
 #### That's it for the server side, please do not close those windows until you finish using the app, you can minimize them.
 Now, for the client side click the link attached at the top of the page and follow the instructions from there.
 
+##### Troubleshooting for the Server side set up
+---------------------------------------------
+If youv'e got the following error message:
+![WhatsApp Image 2022-05-29 at 16 43 11](https://user-images.githubusercontent.com/92876036/170877368-3cbed999-4cfe-47c4-8102-154bce538ab0.jpeg)
+
+That means that the ratings project does not load properly. To solve this problem, please do the following steps:
+1) Remove the "ChitChatRatings" project:
+![WhatsApp Image 2022-05-29 at 16 43 50](https://user-images.githubusercontent.com/92876036/170877471-6acc4a05-a03f-419d-9f74-861a1d37ded7.jpeg)
+
+2)re-add it:
+  2)a) Right click the solution explorer and navigate to Add->Existing source
+![WhatsApp Image 2022-05-29 at 16 44 12](https://user-images.githubusercontent.com/92876036/170877483-69f6840f-cc50-4607-98c2-7ddc2fb0991c.jpeg)
+  2)b) Choose this specific .csproj file.
+![WhatsApp Image 2022-05-29 at 16 44 34](https://user-images.githubusercontent.com/92876036/170877490-4ba411e2-3c03-495d-adf3-64930a331b7d.jpeg)
+
+Now you should see it below the Solution explorer, like that:
+![WhatsApp Image 2022-05-29 at 16 45 26](https://user-images.githubusercontent.com/92876036/170877625-787e11df-acee-4d18-aaeb-157ea92533c5.jpeg)
+
+3) Right click again on the Solution Explorer and left click the "Set Startup Project":
+
+
 Have fun.
 ## Authors
 Asaf Mesilaty, Dan Marom
