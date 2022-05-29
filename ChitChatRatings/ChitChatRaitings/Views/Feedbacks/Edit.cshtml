@@ -1,0 +1,40 @@
+﻿@model ChitChatRaitings.Models.Feedback
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row creation-form" style="color:white">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-input">
+            <label asp-for="Name"></label>
+            <input asp-for="Name"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-input">
+            <label asp-for="Rate"></label>
+            <input asp-for="Rate"/>
+            <span asp-validation-for="Rate" class="text-danger"></span>
+        </div>
+        <div class="form-input">
+            <label asp-for="Description"></label>
+            <input asp-for="Description"/>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-input">
+            <input type="submit" value="Save" class="btn btn-light" />
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Search">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
