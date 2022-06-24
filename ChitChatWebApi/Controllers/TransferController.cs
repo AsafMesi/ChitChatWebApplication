@@ -30,7 +30,7 @@ namespace ChitChatWebApi.Controllers
             MessageWrapper AddedMessage = chat.AddMessage(apiTransfer.content, apiTransfer.from);
             if (AddedMessage == null)
             {
-                return BadRequest("transfer failed");
+                return BadRequest();
             }
             _usersService.UpdateLastMessage(apiTransfer.from, AddedMessage.Content, AddedMessage.Created, apiTransfer.to);
             if (_usersService.GetUser(apiTransfer.from) != null) // We are in the same server
