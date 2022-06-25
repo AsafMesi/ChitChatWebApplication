@@ -15,14 +15,14 @@ namespace ChitChatWebApi.Controllers
         private readonly ILogger<ContactsController> _logger;
         private readonly IUsersService _usersService;
         private IHubContext<ChatHub> _chatHub;
-        private androidConnection _mobile;
+        private static androidConnection _mobile;
 
-        public TransferController(ILogger<ContactsController> logger, IUsersService usersService, IHubContext<ChatHub> hubContext, androidConnection mobile)
+        public TransferController(ILogger<ContactsController> logger, IUsersService usersService, IHubContext<ChatHub> hubContext)
         {
             _logger = logger;
             _usersService = usersService;
             _chatHub = hubContext;
-            _mobile = mobile;
+            _mobile = androidConnection.getInstance();
         }
 
         // POST: /api/Transfer/
@@ -48,7 +48,7 @@ namespace ChitChatWebApi.Controllers
             string token = _usersService.getTokenByUsername(apiTransfer.to);
             if (token != null)
             {
-                await _mobile.SendNotification(apiTransfer.to, apiTransfer.from, token, "Got new message", info.Content);
+                await _mobile.SendNotification(apiTransfer.to, apiTransfer.from, token, "Got new message", AddedMessage.Content);
             } 
             else
             {

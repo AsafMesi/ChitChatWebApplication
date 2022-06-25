@@ -52,7 +52,15 @@ namespace Services
         //Token:
         public string getTokenByUsername(string username)
         {
-            return usersTokenDict[username];
+            if (usersTokenDict.ContainsKey(username))
+            {
+                return usersTokenDict[username];
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         public void addToken(string username, string token)
