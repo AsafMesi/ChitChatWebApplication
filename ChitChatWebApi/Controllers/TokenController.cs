@@ -24,16 +24,16 @@ namespace ChitChatWebApi.Controllers
 
         // POST: /api/Token/
         [HttpPost("{LoggedUser}")]
-        public async IActionResult getToken([FromBody] string token, string LoggedUser)
+        public IActionResult getToken([FromBody] string token, string LoggedUser)
         {
-            string localToken = UsersService.getTokenByUsername(LoggedUser);
+            string localToken = _usersService.getTokenByUsername(LoggedUser);
             if (localToken == token)
             {
                 return Ok();
             }
             else if (localToken == null)
             {
-                UsersService.addToken(LoggedUser, token);
+                _usersService.addToken(LoggedUser, token);
                 return Ok();
             }
             return NotFound();

@@ -52,12 +52,12 @@ namespace Services
         //Token:
         public string getTokenByUsername(string username)
         {
-            return null;
+            return usersTokenDict[username];
         }
 
         public void addToken(string username, string token)
         {
-
+            usersTokenDict[username] = token;
         }
 
 
