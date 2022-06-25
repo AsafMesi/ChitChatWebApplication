@@ -7,7 +7,6 @@ namespace ChitChatWebApi.Hubs
     {
         public async Task getContactUpdate()
         {
-            //Console.WriteLine(userToUpdate);
             if (Clients != null)
             {
                 await Clients.All.SendAsync("TriggerGetContacts");//, userToUpdate);
