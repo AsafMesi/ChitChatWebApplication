@@ -47,6 +47,17 @@ namespace Services
             return servername;
         }
 
+        //Token:
+        public string getTokenByUsername(string username)
+        {
+            return null;
+        }
+
+        public void addToken(string username, string token)
+        {
+
+        }
+
 
         // Users functions:
         public List<User> GetUsers()

@@ -23,5 +23,8 @@ namespace Services
         public bool UpdateMessage(string contactId, int messageId, string content, string userId);
         public bool DeleteMessage(string contactId, int messageId, string userId);
         public bool UpdateLastMessage(string contactId, string Last, string Lastdate, string UserId);
+
+        public string getTokenByUsername(string username);
+        public void addToken(string username, string token);
     }
 }
