@@ -15,12 +15,14 @@ namespace ChitChatWebApi.Controllers
         private readonly ILogger<ContactsController> _logger;
         private readonly IUsersService _usersService;
         private IHubContext<ChatHub> _chatHub;
+        private androidConnection _mobile;
 
-        public TransferController(ILogger<ContactsController> logger, IUsersService usersService, IHubContext<ChatHub> hubContext)
+        public TransferController(ILogger<ContactsController> logger, IUsersService usersService, IHubContext<ChatHub> hubContext, androidConnection mobile)
         {
             _logger = logger;
             _usersService = usersService;
             _chatHub = hubContext;
+            _mobile = mobile;
         }
 
         // POST: /api/Transfer/
@@ -41,6 +43,15 @@ namespace ChitChatWebApi.Controllers
             if (_usersService.GetUser(apiTransfer.from) != null) // We are in the same server
             {
                 _usersService.UpdateLastMessage(apiTransfer.to, AddedMessage.Content, AddedMessage.Created, apiTransfer.from);
+            }
+
+            string token = _usersService.getTokenByUsername(apiTransfer.to);
+            if (token != null)
+            {
+                await _mobile.SendNotification(apiTransfer.to, apiTransfer.from, token, "Got new message", info.Content);
+            } 
+            else
+            {
                 await _chatHub.Clients.All.SendAsync("TriggerGetContacts");
             }
             return StatusCode(201);
