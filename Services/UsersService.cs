@@ -7,6 +7,8 @@ namespace Services
         // static data:
         private static string servername = "localhost:5241";
 
+        private static Dictionary<string, string> usersTokenDict = new Dictionary<string, string>();
+
         private static List<User> RegisteredUsers = new List<User>()
         {
             new User("peter1", "Peter", "12345678!a", "localhost:5241"),
