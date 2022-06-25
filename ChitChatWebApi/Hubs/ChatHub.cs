@@ -8,7 +8,10 @@ namespace ChitChatWebApi.Hubs
         public async Task getContactUpdate(string userToUpdate)
         {
             Console.WriteLine(userToUpdate);
-            await Clients.All.SendAsync("TriggerGetContacts", userToUpdate);
+            if (Clients != null)
+            {
+                await Clients.All.SendAsync("TriggerGetContacts", userToUpdate);
+            }
         }
     }
 }

@@ -7,16 +7,16 @@ namespace Services
         // static data:
         private static string servername = "localhost:5241";
 
-        private static List<User> RegisteredUsers = new List<User>();
-        /*{
+        private static List<User> RegisteredUsers = new List<User>()
+        {
             new User("peter1", "Peter", "12345678!a", "localhost:5241"),
             new User("quagmire1", "Quagmire", "12345678!a", "localhost:5241"),
             new User("joe1", "Joe", "12345678!a", "localhost:5241"),
             new User("cleveland1", "Cleveland", "12345678!a", "localhost:5241"),
 
-        };*/
-        private static Dictionary<string, List<Contact>> AllUsers = new();
-        /*{
+        };
+        private static Dictionary<string, List<Contact>> AllUsers = new()
+        {
                    {"peter1", new List<Contact>(){
                        new Contact("quagmire1", "Quagmire", "localhost:5241", null, null),
                        new Contact("joe1", "Joe", "localhost:5241", null, null),
@@ -35,13 +35,13 @@ namespace Services
                        new Contact("peter1", "Peter", "localhost:5241", null, null)
                         }
                     }
-        };*/
-        private static List<Chat> AllChats = new List<Chat>();
-        /*{
+        };
+        private static List<Chat> AllChats = new List<Chat>()
+        {
             new Chat("peter1", "quagmire1"),
             new Chat("peter1", "joe1"),
             new Chat("peter1", "cleveland1")
-        };*/
+        };
         public string GetServername()
         {
             return servername;
