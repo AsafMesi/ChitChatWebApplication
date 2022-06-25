@@ -11,11 +11,13 @@ namespace ChitChatWebApi.Controllers
     {
         private readonly ILogger<ContactsController> _logger;
         private readonly IUsersService _usersService;
+        private readonly Hubs.ChatHub _chatHub;
 
         public TransferController(ILogger<ContactsController> logger, IUsersService usersService)
         {
             _logger = logger;
             _usersService = usersService;
+            _chatHub = new Hubs.ChatHub();
         }
 
         // POST: /api/Transfer/
@@ -36,6 +38,7 @@ namespace ChitChatWebApi.Controllers
             if (_usersService.GetUser(apiTransfer.from) != null) // We are in the same server
             {
                 _usersService.UpdateLastMessage(apiTransfer.to, AddedMessage.Content, AddedMessage.Created, apiTransfer.from);
+                _ = _chatHub.getContactUpdate(apiTransfer.to);
             }
             return StatusCode(201);
         }
