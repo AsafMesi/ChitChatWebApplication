@@ -5,12 +5,12 @@ namespace ChitChatWebApi.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task getContactUpdate(string userToUpdate)
+        public async Task getContactUpdate()
         {
-            Console.WriteLine(userToUpdate);
+            //Console.WriteLine(userToUpdate);
             if (Clients != null)
             {
-                await Clients.All.SendAsync("TriggerGetContacts", userToUpdate);
+                await Clients.All.SendAsync("TriggerGetContacts");//, userToUpdate);
             }
         }
     }

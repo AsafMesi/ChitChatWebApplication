@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using Domain;
 using Services;
+using Microsoft.AspNetCore.SignalR;
+using ChitChatWebApi.Hubs;
+
 
 namespace ChitChatWebApi.Controllers
 {
@@ -11,18 +14,18 @@ namespace ChitChatWebApi.Controllers
     {
         private readonly ILogger<ContactsController> _logger;
         private readonly IUsersService _usersService;
-        private readonly Hubs.ChatHub _chatHub;
+        private IHubContext<ChatHub> _chatHub;
 
-        public TransferController(ILogger<ContactsController> logger, IUsersService usersService)
+        public TransferController(ILogger<ContactsController> logger, IUsersService usersService, IHubContext<ChatHub> hubContext)
         {
             _logger = logger;
             _usersService = usersService;
-            _chatHub = new Hubs.ChatHub();
+            _chatHub = hubContext;
         }
 
         // POST: /api/Transfer/
         [HttpPost]
-        public IActionResult Transfer([FromBody] ApiTransfer apiTransfer)
+        public async Task<IActionResult> Transfer([FromBody] ApiTransfer apiTransfer)
         {
             Chat chat = _usersService.GetChat(apiTransfer.to, apiTransfer.from);
             if (chat == null)
@@ -38,7 +41,7 @@ namespace ChitChatWebApi.Controllers
             if (_usersService.GetUser(apiTransfer.from) != null) // We are in the same server
             {
                 _usersService.UpdateLastMessage(apiTransfer.to, AddedMessage.Content, AddedMessage.Created, apiTransfer.from);
-                _ = _chatHub.getContactUpdate(apiTransfer.to);
+                await _chatHub.Clients.All.SendAsync("TriggerGetContacts");
             }
             return StatusCode(201);
         }
