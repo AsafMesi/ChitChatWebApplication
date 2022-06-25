@@ -12,11 +12,13 @@ namespace Domain
         private static FirebaseMessaging messaging = null;
 
         public androidConnection()
-        { 
-        var app = FirebaseApp.Create(new AppOptions()
         {
-            Credential = GoogleCredential.FromFile("serviceAccountKey.json")
-        });
+            var app = FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.
+                FromFile("private_key.json").
+                CreateScoped("https://www.googleapis.com/auth/firebase.messaging")
+            });
             messaging = FirebaseMessaging.GetMessaging(app);
         }
 
