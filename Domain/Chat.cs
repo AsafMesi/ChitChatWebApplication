@@ -32,7 +32,7 @@ namespace Domain
             return NewMsg;
         }
 
-        public Message GetMessage(int id, string loggedUser)
+        public ApiMessage GetMessage(int id, string loggedUser)
         {
             MessageWrapper message = Messages.Find(x => x.Id == id);
             if (message == null)

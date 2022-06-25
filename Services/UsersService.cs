@@ -127,7 +127,7 @@ namespace Services
         {
             AllChats.Add(new Chat(username1, username2));
         }
-        public List<Message> GetMessages(string contactId, string userId)
+        public List<ApiMessage> GetMessages(string contactId, string userId)
         {
             Chat chat = GetChat(contactId, userId);
             if (chat == null)
@@ -136,10 +136,10 @@ namespace Services
             }
             return MessageWrapper.GetMessages(chat.Messages, userId);
         }
-        public Message GetMessage(string contactId, int messageId, string userId)
+        public ApiMessage GetMessage(string contactId, int messageId, string userId)
         {
-            List<Message> messages = GetMessages(contactId, userId);
-            Message message = messages.Find(x => x.Id == messageId);
+            List<ApiMessage> messages = GetMessages(contactId, userId);
+            ApiMessage message = messages.Find(x => x.Id == messageId);
             return message;
         }
         public bool AddMessage(string contactId, string content, string userId)
@@ -159,7 +159,7 @@ namespace Services
         }
         public bool UpdateMessage(string contactId, int messageId, string content, string userId)
         {
-            Message message = GetMessage(contactId, messageId, userId);
+            ApiMessage message = GetMessage(contactId, messageId, userId);
             if (message == null)
             {
                 return false;

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
+
 using Google.Apis.Auth.OAuth2;
 
 namespace Domain
@@ -11,9 +12,11 @@ namespace Domain
         private static FirebaseMessaging messaging = null;
 
         public androidConnection()
+        { 
+        var app = FirebaseApp.Create(new AppOptions()
         {
-            // ??? ---------------->
-            var app = FirebaseApp.Create(new AppOptions) { Credential = GoogleCredential.FromFile("serviceAccountKey.json").Cre};
+            Credential = GoogleCredential.FromFile("serviceAccountKey.json")
+        });
             messaging = FirebaseMessaging.GetMessaging(app);
         }
 
@@ -23,7 +26,7 @@ namespace Domain
             data["to"] = to;
             data["from"] = from;
             data["text"] = notificationBody;
-            return new Message() // ??
+            return new Message()
             {
                 Token = token,
                 Notification = new Notification()

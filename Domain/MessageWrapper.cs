@@ -21,21 +21,21 @@ namespace Domain
             SenderUsername = senderUsername;
         }
 
-        public static List<Message> GetMessages(List<MessageWrapper> messages, string loggedUser)
+        public static List<ApiMessage> GetMessages(List<MessageWrapper> messages, string loggedUser)
         {
             int length = messages.Count;
-            List <Message> result = new List <Message>(new Message[length]);
+            List <ApiMessage> result = new List <ApiMessage>(new ApiMessage[length]);
             for (int i = 0; i < length; i++)
             {
                 MessageWrapper msg = messages[i];
-                result[i] = new Message(msg.Id, msg.Content, msg.Created, (msg.SenderUsername == loggedUser));
+                result[i] = new ApiMessage(msg.Id, msg.Content, msg.Created, (msg.SenderUsername == loggedUser));
             }
             return result;
         }
 
-        public static Message GetMessage(MessageWrapper msg, string loggedUser)
+        public static ApiMessage GetMessage(MessageWrapper msg, string loggedUser)
         {
-         Message res = new Message(msg.Id, msg.Content, msg.Created, (msg.SenderUsername == loggedUser));
+         ApiMessage res = new ApiMessage(msg.Id, msg.Content, msg.Created, (msg.SenderUsername == loggedUser));
             return res;
         }
     }

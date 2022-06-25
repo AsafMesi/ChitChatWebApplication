@@ -117,7 +117,7 @@ namespace ChitChatWebApi.Controllers
         [HttpGet("{id}/Messages/{LoggedUser}")]
         public IActionResult GetMessages(string id, string LoggedUser)
         {
-            List<Message> messages = _usersService.GetMessages(id, LoggedUser);
+            List<ApiMessage> messages = _usersService.GetMessages(id, LoggedUser);
                 if (messages == null)
             {
                 return NotFound();
@@ -140,7 +140,7 @@ namespace ChitChatWebApi.Controllers
         [HttpGet("{id}/Messages/{id2}/{LoggedUser}")]
         public IActionResult GetMessageById(string id, int id2, string LoggedUser)
         {
-            Message message = _usersService.GetMessage(id, id2, LoggedUser);
+            ApiMessage message = _usersService.GetMessage(id, id2, LoggedUser);
             if (message == null)
             {
                 return NotFound();
